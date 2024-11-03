@@ -11,12 +11,13 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
-import java.net.InetSocketAddress;
-import java.net.Proxy;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * @author 小傅哥，微信：fustack
  * @description OpenAi API Factory 会话工厂
+ * @github https://github.com/fuzhengwei
+ * @Copyright 公众号：bugstack虫洞栈 | 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
  */
 public class DefaultOpenAiSessionFactory implements OpenAiSessionFactory {
 
@@ -30,18 +31,18 @@ public class DefaultOpenAiSessionFactory implements OpenAiSessionFactory {
     public OpenAiSession openSession() {
         // 1. 日志配置
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS);
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         // 2. 开启 Http 客户端
         OkHttpClient okHttpClient = new OkHttpClient
                 .Builder()
                 .addInterceptor(httpLoggingInterceptor)
-                .addInterceptor(new OpenAiInterceptor(configuration.getApiKey(), configuration.getAuthToken()))
+                .addInterceptor(new OpenAiInterceptor(configuration.getApiKey()))
                 .connectTimeout(450, TimeUnit.SECONDS)
                 .writeTimeout(450, TimeUnit.SECONDS)
                 .readTimeout(450, TimeUnit.SECONDS)
-                //.proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 21284)))
                 .build();
+        configuration.setOkHttpClient(okHttpClient);
 
         // 3. 创建 API 服务
         IOpenAiApi openAiApi = new Retrofit.Builder()
@@ -50,9 +51,9 @@ public class DefaultOpenAiSessionFactory implements OpenAiSessionFactory {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build().create(IOpenAiApi.class);
+        configuration.setOpenAiApi(openAiApi);
 
-        return new DefaultOpenAiSession(openAiApi);
+        return new DefaultOpenAiSession(configuration);
     }
 
 }
-

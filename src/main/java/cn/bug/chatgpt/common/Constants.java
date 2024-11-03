@@ -3,6 +3,7 @@ package cn.bug.chatgpt.common;
  * @description 通用类
  */
 public class Constants {
+    public final static String NULL = "NULL";
 
     /**
      * 官网支持的请求角色类型；system、user、assistant

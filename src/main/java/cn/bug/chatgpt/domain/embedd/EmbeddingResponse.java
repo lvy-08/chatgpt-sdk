@@ -1,31 +1,23 @@
-package cn.bug.chatgpt.domain.qa;
+package cn.bug.chatgpt.domain.embedd;
 
-import cn.bug.chatgpt.domain.other.Choice;
 import cn.bug.chatgpt.domain.other.Usage;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author 小傅哥，微信：fustack
- * @description
+ * @description 反馈对象
  * @github https://github.com/fuzhengwei
  * @Copyright 公众号：bugstack虫洞栈 | 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
  */
 @Data
-public class QACompletionResponse implements Serializable {
+public class EmbeddingResponse implements Serializable {
 
-    /** ID */
-    private String id;
-    /** 对象 */
     private String object;
-    /** 模型 */
+    private List<Item> data;
     private String model;
-    /** 对话 */
-    private Choice[] choices;
-    /** 创建 */
-    private long created;
-    /** 耗材 */
     private Usage usage;
 
 }
