@@ -41,7 +41,7 @@ public class HttpClientTest {
 
                     Request request = original.newBuilder()
                             .url(url)
-                            .header(Header.AUTHORIZATION.getValue(), "Bearer " + "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")
+                            .header(Header.AUTHORIZATION.getValue(), "Bearer " + "....")
                             .header(Header.CONTENT_TYPE.getValue(), ContentType.JSON.getValue())
                             .method(original.method(), original.body())
                             .build();

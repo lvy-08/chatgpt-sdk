@@ -29,7 +29,7 @@ public class ApiTest {
         // 1. 配置文件【如果你从小傅哥获取key会给你提供apihost，你可以分别替换下】
         Configuration configuration = new Configuration();
         configuration.setApiHost("https://api.openai.com/");
-        configuration.setApiKey("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");
+        configuration.setApiKey("...");
         // 可以根据课程首页评论置顶说明获取 apihost、apikey；https://t.zsxq.com/0d3o5FKvc
         //configuration.setAuthToken("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4ZmciLCJleHAiOjE2ODMyODE2NzEsImlhdCI6MTY4MzI3ODA3MSwianRpIjoiMWUzZTkwYjYtY2UyNy00NzNlLTk5ZTYtYWQzMWU1MGVkNWE4IiwidXNlcm5hbWUiOiJ4ZmcifQ.YgQRJ2U5-9uydtd6Wbkg2YatsoX-y8mS_OJ3FdNRaX0");
         // 2. 会话工厂
