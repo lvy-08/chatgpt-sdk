@@ -28,7 +28,7 @@ public class DefaultOpenAiSessionFactory implements OpenAiSessionFactory {
 
     @Override
     public OpenAiSession openSession() {
-        // 1. 日志配置
+        // 1. okHttp库的日志拦截器配置，级别是http请求的头部交互信息
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS);
 
@@ -40,7 +40,7 @@ public class DefaultOpenAiSessionFactory implements OpenAiSessionFactory {
                 .connectTimeout(450, TimeUnit.SECONDS)
                 .writeTimeout(450, TimeUnit.SECONDS)
                 .readTimeout(450, TimeUnit.SECONDS)
-                //.proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 21284)))
+                .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 7890)))
                 .build();
 
         // 3. 创建 API 服务

@@ -15,6 +15,8 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.util.Collections;
 
 /**
@@ -39,16 +41,17 @@ public class HttpClientTest {
 
                     Request request = original.newBuilder()
                             .url(url)
-                            .header(Header.AUTHORIZATION.getValue(), "Bearer " + "。。。")
+                            .header(Header.AUTHORIZATION.getValue(), "Bearer " + "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")
                             .header(Header.CONTENT_TYPE.getValue(), ContentType.JSON.getValue())
                             .method(original.method(), original.body())
                             .build();
                     return chain.proceed(request);
                 })
+                .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 7890)))
                 .build();
 
         IOpenAiApi openAiApi = new Retrofit.Builder()
-                .baseUrl("http://api.xfg.im/b8b6/")
+                .baseUrl("https://api.openai.com/")
                 .client(okHttpClient)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(JacksonConverterFactory.create())

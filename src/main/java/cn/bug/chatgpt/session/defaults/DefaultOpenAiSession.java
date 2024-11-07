@@ -29,7 +29,7 @@ public class DefaultOpenAiSession implements OpenAiSession {
         return this.openAiApi.completions(qaCompletionRequest).blockingGet();
     }
 
-    @Override
+/*    @Override
     public QACompletionResponse completions(String question) {
         QACompletionRequest request = QACompletionRequest
                 .builder()
@@ -37,7 +37,28 @@ public class DefaultOpenAiSession implements OpenAiSession {
                 .build();
         Single<QACompletionResponse> completions = this.openAiApi.completions(request);
         return completions.blockingGet();
+    }*/
+
+    @Override
+    public QACompletionResponse completions(String question) {
+        if (question == null || question.trim().isEmpty()) {
+            throw new IllegalArgumentException("Question cannot be null or empty");
+        }
+
+        QACompletionRequest request = QACompletionRequest
+                .builder()
+                .prompt(question)
+                .build();
+
+        try {
+            Single<QACompletionResponse> completions = this.openAiApi.completions(request);
+            return completions.blockingGet(); // 考虑用非阻塞方式
+        } catch (Exception e) {
+            // 处理 API 调用中的异常
+            throw new RuntimeException("Failed to get completions from OpenAI API", e);
+        }
     }
+
 
     @Override
     public ChatCompletionResponse completions(ChatCompletionRequest chatCompletionRequest) {

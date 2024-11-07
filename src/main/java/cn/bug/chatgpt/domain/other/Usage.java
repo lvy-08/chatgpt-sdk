@@ -1,5 +1,6 @@
 package cn.bug.chatgpt.domain.other;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
@@ -7,6 +8,7 @@ import java.io.Serializable;
 /**
  * @description 使用量
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Usage implements Serializable {
 
     /** 提示令牌 */
