@@ -11,6 +11,8 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -41,6 +43,7 @@ public class DefaultOpenAiSessionFactory implements OpenAiSessionFactory {
                 .connectTimeout(450, TimeUnit.SECONDS)
                 .writeTimeout(450, TimeUnit.SECONDS)
                 .readTimeout(450, TimeUnit.SECONDS)
+                .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 7890)))
                 .build();
         configuration.setOkHttpClient(okHttpClient);
 
