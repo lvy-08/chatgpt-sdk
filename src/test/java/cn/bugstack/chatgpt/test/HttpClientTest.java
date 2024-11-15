@@ -64,7 +64,7 @@ public class HttpClientTest {
                 .build();
 
         IOpenAiApi openAiApi = new Retrofit.Builder()
-                .baseUrl("https://openai.com/")
+                .baseUrl("https://api.openai.com/")
                 .client(okHttpClient)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(JacksonConverterFactory.create())
