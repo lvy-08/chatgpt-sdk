@@ -21,6 +21,8 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.net.URL;
 import java.util.Collections;
 import java.util.concurrent.CountDownLatch;
@@ -52,16 +54,17 @@ public class HttpClientTest {
 
                     Request request = original.newBuilder()
                             .url(url)
-                            .header(Header.AUTHORIZATION.getValue(), "Bearer " + "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")
+                            .header(Header.AUTHORIZATION.getValue(), "Bearer " + "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")
                             .header(Header.CONTENT_TYPE.getValue(), ContentType.JSON.getValue())
                             .method(original.method(), original.body())
                             .build();
                     return chain.proceed(request);
                 })
+                .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 7890)))
                 .build();
 
         IOpenAiApi openAiApi = new Retrofit.Builder()
-                .baseUrl("https://api.xfg.im/b8b6/")
+                .baseUrl("https://openai.com/")
                 .client(okHttpClient)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(JacksonConverterFactory.create())
@@ -100,7 +103,7 @@ public class HttpClientTest {
 
                     Request request = original.newBuilder()
                             .url(url)
-                            .header(Header.AUTHORIZATION.getValue(), "Bearer " + "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")
+                            .header(Header.AUTHORIZATION.getValue(), "Bearer " + "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")
                             .header(Header.CONTENT_TYPE.getValue(), ContentType.JSON.getValue())
                             .method(original.method(), original.body())
                             .build();
