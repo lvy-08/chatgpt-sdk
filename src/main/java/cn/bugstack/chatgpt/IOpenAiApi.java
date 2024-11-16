@@ -31,7 +31,7 @@ public interface IOpenAiApi {
      * @param chatCompletionRequest 请求信息
      * @return                      返回结果
      */
-    @POST(v1_chat_completions)
-    Single<ChatCompletionResponse> completions(@Body ChatCompletionRequest chatCompletionRequest);
+    @POST(v1_chat_completions)//定义请求的相对路径
+    Single<ChatCompletionResponse> completions(@Body ChatCompletionRequest chatCompletionRequest);//@body将对象序列化为JSON
 
 }

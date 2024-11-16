@@ -54,7 +54,7 @@ public class HttpClientTest {
 
                     Request request = original.newBuilder()
                             .url(url)
-                            .header(Header.AUTHORIZATION.getValue(), "Bearer " + "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")
+                            .header(Header.AUTHORIZATION.getValue(), "Bearer " + "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")
                             .header(Header.CONTENT_TYPE.getValue(), ContentType.JSON.getValue())
                             .method(original.method(), original.body())
                             .build();
@@ -63,7 +63,7 @@ public class HttpClientTest {
                 .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 7890)))
                 .build();
 
-        IOpenAiApi openAiApi = new Retrofit.Builder()
+        IOpenAiApi openAiApi = new Retrofit.Builder()//使用 Retrofit 创建一个 REST API 接口的HTTP客户端代理对象（IOpenAiApi）。①通过定义接口（如 IOpenAiApi），自动将方法映射到 HTTP 请求。 ②管理 HTTP 请求的细节（如路径拼接、参数绑定、响应解析）。 ③支持各种扩展，如 JSON 转换器、响应适配器（如 RxJava）。
                 .baseUrl("https://api.openai.com/")
                 .client(okHttpClient)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -77,8 +77,8 @@ public class HttpClientTest {
                 .model(ChatCompletionRequest.Model.GPT_3_5_TURBO.getCode())
                 .build();
 
-        Single<ChatCompletionResponse> chatCompletionResponseSingle = openAiApi.completions(chatCompletion);
-        ChatCompletionResponse chatCompletionResponse = chatCompletionResponseSingle.blockingGet();
+        Single<ChatCompletionResponse> chatCompletionResponseSingle = openAiApi.completions(chatCompletion);//单次请求-响应。一次性接收整个响应，适合无需分块返回的场景。
+        ChatCompletionResponse chatCompletionResponse = chatCompletionResponseSingle.blockingGet();//使用 Single.blockingGet() 阻塞式地等待服务器返回完整的响应。
         chatCompletionResponse.getChoices().forEach(e -> {
             System.out.println(e.getMessage());
         });
@@ -103,12 +103,13 @@ public class HttpClientTest {
 
                     Request request = original.newBuilder()
                             .url(url)
-                            .header(Header.AUTHORIZATION.getValue(), "Bearer " + "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")
+                            .header(Header.AUTHORIZATION.getValue(), "Bearer " + "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")
                             .header(Header.CONTENT_TYPE.getValue(), ContentType.JSON.getValue())
                             .method(original.method(), original.body())
                             .build();
                     return chain.proceed(request);
                 })
+                .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 7890)))
                 .build();
 
         Message message = Message.builder().role(Constants.Role.USER).content("写一个java冒泡排序").build();
@@ -116,26 +117,26 @@ public class HttpClientTest {
                 .builder()
                 .messages(Collections.singletonList(message))
                 .model(ChatCompletionRequest.Model.GPT_3_5_TURBO.getCode())
-                .stream(true)
+                .stream(true)//消息是流式数据
                 .build();
 
         EventSource.Factory factory = EventSources.createFactory(okHttpClient);
         String requestBody = new ObjectMapper().writeValueAsString(chatCompletion);
 
-        Request request = new Request.Builder()
-                .url("https://api.xfg.im/b8b6/v1/chat/completions")
+        Request request = new Request.Builder()// OkHttp 提供的构建器模式，用于手动构造 HTTP 请求,包括URL、HTTP 方法（GET, POST 等）、请求头和请求体等。需要搭配 OkHttpClient 执行请求。
+                .url("https://api.openai.com/v1/chat/completions")
                 .post(RequestBody.create(MediaType.parse(ContentType.JSON.getValue()), requestBody))
                 .build();
 
         EventSource eventSource = factory.newEventSource(request, new EventSourceListener() {
             @Override
-            public void onEvent(EventSource eventSource, String id, String type, String data) {
+            public void onEvent(EventSource eventSource, String id, String type, String data) {//onEvent方法异步监听服务器流式返回的数据。SSE格式：id，type，data
                 log.info("测试结果：{}", data);
             }
-        });
+        });//测试SSE流式响应的代码，通过EventSource实现异步、持续监听服务器的消息。消息是流式数据。
 
         // 等待
-        new CountDownLatch(1).await();
+        new CountDownLatch(1).await();//阻塞当前线程，确保，流式数据接收完毕，当前线程还没执行结束。
     }
 
 }

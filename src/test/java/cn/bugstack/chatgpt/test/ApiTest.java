@@ -36,8 +36,8 @@ public class ApiTest {
     public void test_OpenAiSessionFactory() {
         // 1. 配置文件
         Configuration configuration = new Configuration();
-        configuration.setApiHost("https://api.xfg.im/b8b6/");
-        configuration.setApiKey("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");
+        configuration.setApiHost("https://api.openai.com/");
+        configuration.setApiKey("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");
         // 测试时候，需要先获得授权token：http://api.xfg.im:8080/authorize?username=xfg&password=123 - 此地址暂时有效，后续根据课程首页说明获取token；https://t.zsxq.com/0d3o5FKvc
         configuration.setAuthToken("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4ZmciLCJleHAiOjE2ODM5NDU3NDcsImlhdCI6MTY4Mzk0MjE0NywianRpIjoiM2QyMDExMTYtNmVjMS00Y2UzLWJhYzgtYzYxYmVmN2ZmNWE5IiwidXNlcm5hbWUiOiJ4ZmcifQ.3FDvUNuNoGemKLhcgagy8WH7xHwRU37t--BuH0N9skg");
         // 2. 会话工厂

@@ -17,7 +17,7 @@ import java.util.Map;
  * @Copyright 公众号：bugstack虫洞栈 | 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
  */
 @Data
-@Builder
+@Builder//当在类或方法上加上@Builder注解时，①Lombok 会生成一个静态内部类，这个类就是 Builder。②生成链式调用方法，用于设置对象的各个字段。③生成一个 build() 方法，用于创建最终的目标对象。
 @Slf4j
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
